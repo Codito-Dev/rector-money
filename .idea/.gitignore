@@ -1,0 +1,16 @@
+*
+!.gitignore
+
+# Basic project files
+!.name
+!rector-money.iml
+!modules.xml
+!php-docker-settings.xml
+!php-test-framework.xml
+!php.xml
+!remote-mappings.xml
+!vcs.xml
+
+# Default profiles and runtime configurations
+!inspectionProfiles/Project_Default.xml
+!runConfigurations/Xdebug.xml
