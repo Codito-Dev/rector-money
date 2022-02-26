@@ -6,6 +6,20 @@
 composer require codito/rector-money --dev
 ```
 
+## Use Sets
+
+To add a set to your config, use `Rector\Money\MoneySetList` class:
+
+```php
+use Rector\Core\Configuration\Option;
+use Rector\Money\MoneySetList;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(MoneySetList::V4);
+};
+```
+
 ## Contributing
 
 If you want to contribute to this package just clone this repository:
