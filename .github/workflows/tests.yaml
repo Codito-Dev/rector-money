@@ -22,7 +22,7 @@ jobs:
           - ubuntu-latest
           - windows-latest
         script:
-          - "make phpunit"
+          - "composer phpunit"
 
     steps:
       - name: "Checkout"
