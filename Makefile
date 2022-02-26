@@ -6,6 +6,22 @@ help:  ## Display this help
 run: check-command ## Runs specified command on PHP container (starts it automatically)
 	docker-compose run php $(cmd)
 
+qa: cs rector phpstan phpunit ## Runs QA suite
+fix: rector-fix ## Applies automatic fixes
+
+cs: ## Checks coding standards
+	docker-compose run php composer cs:check
+cs-fix: ## Fixes coding standards violations
+	docker-compose run php composer cs:fix
+phpstan: ## Runs PHPStan analysis
+	docker-compose run php composer phpstan
+phpunit: ## Runs unit tests
+	docker-compose run php composer phpunit
+rector: ## Runs Rector analysis
+	docker-compose run php composer rector:check
+rector-fix: ## Runs Rector analysis
+	docker-compose run php composer rector:fix
+
 check-command:
 ifndef cmd
 	$(error Command not specified, please add script argument like: cmd="composer install")

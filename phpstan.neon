@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+
+    paths:
+        - config
+        - src
+        - tests
+
+    excludePaths:
+        - */Source/*
+
+    reportUnmatchedIgnoredErrors: true

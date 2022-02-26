@@ -6,6 +6,16 @@
 composer require codito/rector-money --dev
 ```
 
+## Contributing
+
+If you want to contribute to this package just clone this repository:
+
+- make all changes to achieve what you need
+- run `make qa` and ensure everything passes
+- create Pull Request
+
+Thanks in advance! :beers:
+
 ## Development environment
 
 For developing this package you should use prepared Docker stack. All commands should be executed
