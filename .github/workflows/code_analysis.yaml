@@ -29,7 +29,7 @@ jobs:
           - name: 'Rector'
             run: composer rector:check
 
-    name: ${{ matrix.actions.name }}
+    name: "${{ matrix.actions.name }} @ PHP${{ matrix.php-version }}"
 
     steps:
       - uses: actions/checkout@v2
