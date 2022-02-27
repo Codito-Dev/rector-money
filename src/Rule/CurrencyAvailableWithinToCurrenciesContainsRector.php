@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Rector\Money\Rule;
 
+use Money\Currency;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PHPStan\Type\ObjectType;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -38,6 +40,19 @@ final class CurrencyAvailableWithinToCurrenciesContainsRector extends AbstractRe
      */
     public function refactor(Node $node): ?Node
     {
-        return null;
+        if ($this->shouldSkip($node)) {
+            return null;
+        }
+
+        return $this->nodeFactory->createMethodCall($node->getArgs()[0]->value, 'contains', [$node->var]);
+    }
+
+    private function shouldSkip(MethodCall $node): bool
+    {
+        /** @var ObjectType $executedOn */
+        $executedOn = $this->nodeTypeResolver->getNativeType($node->var);
+
+        return $executedOn->getClassName() !== Currency::class
+            || $this->nodeNameResolver->getName($node->name) !== 'isAvailableWithin';
     }
 }
