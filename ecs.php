@@ -13,6 +13,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters = $containerConfigurator->parameters();
 
+    $parameters->set(Option::CACHE_DIRECTORY, 'cache/ecs');
     $parameters->set(Option::PARALLEL, true);
 
     $parameters->set(Option::PATHS, [

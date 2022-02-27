@@ -1,4 +1,4 @@
 .env
-.phpunit.result.cache
 composer.lock
 vendor/
+cache/
