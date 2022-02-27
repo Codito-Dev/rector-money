@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
+use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
@@ -24,7 +26,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/rector.php',
     ]);
 
-    $parameters->set(Option::SKIP, ['*/Source/*', '*/Fixture/*']);
+    $parameters->set(Option::SKIP, [
+        // Paths that should not be analysed
+        '*/Source/*',
+        '*/Fixture/*',
+
+        // Sniffs / Checkers
+        NotOperatorWithSuccessorSpaceFixer::class,
+        AssignmentInConditionSniff::class . '.Found',
+    ]);
 
     $parameters->set(Option::LINE_ENDING, "\n");
 };
