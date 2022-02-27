@@ -10,5 +10,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services = $containerConfigurator->services();
 
-    $services->set(MultiplyAndDivideByStringRector::class);
+    $services->set(MultiplyAndDivideByStringRector::class)
+        ->configure([
+            MultiplyAndDivideByStringRector::PRECISION => 5,
+        ]);
 };

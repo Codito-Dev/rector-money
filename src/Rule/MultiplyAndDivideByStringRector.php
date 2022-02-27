@@ -14,13 +14,19 @@ use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\ObjectType;
+use Rector\Core\Contract\Rector\AllowEmptyConfigurableRectorInterface;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Webmozart\Assert\Assert;
 
-final class MultiplyAndDivideByStringRector extends AbstractRector
+final class MultiplyAndDivideByStringRector extends AbstractRector implements AllowEmptyConfigurableRectorInterface
 {
+    public const PRECISION = 'precision';
+
+    private int $precision;
+
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
@@ -79,7 +85,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector
                 $firstArg->value = $this->nodeFactory->createFuncCall(
                     'sprintf',
                     [
-                        '%.5F',
+                        sprintf('%%.%dF', $this->precision),
                         $firstArgValue,
                     ]
                 );
@@ -89,6 +95,11 @@ final class MultiplyAndDivideByStringRector extends AbstractRector
         }
 
         return null;
+    }
+
+    public function configure(array $configuration): void
+    {
+        Assert::nullOrInteger($this->precision = $configuration[self::PRECISION] ?? 5);
     }
 
     private function shouldSkip(MethodCall $node): bool
