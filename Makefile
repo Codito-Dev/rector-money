@@ -6,7 +6,8 @@ help:  ## Display this help
 run: check-command ## Runs specified command on PHP container (starts it automatically)
 	docker-compose run php $(cmd)
 
-qa: cs rector phpstan phpunit ## Runs QA suite
+qa: sa rector phpunit ## Runs QA suite
+sa: cs phpstan ## Runs static analysis
 fix: rector-fix ## Applies automatic fixes
 
 cs: ## Checks coding standards
