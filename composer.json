@@ -60,7 +60,7 @@
             ]
         },
         "branch-alias": {
-            "dev-main": "0.1-dev"
+            "dev-main": "1.0-dev"
         },
         "rector": {
             "includes": [
