@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
+use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -32,6 +33,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/Fixture/*',
 
         // Sniffs / Checkers
+        CastSpacesFixer::class,
         NotOperatorWithSuccessorSpaceFixer::class,
         AssignmentInConditionSniff::class . '.Found',
     ]);
