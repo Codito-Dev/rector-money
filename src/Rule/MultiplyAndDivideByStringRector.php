@@ -7,12 +7,10 @@ namespace Rector\Money\Rule;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Core\ValueObject\PhpVersion;
-use Rector\VersionBonding\Contract\MinPhpVersionInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class MultiplyAndDivideByStringRector extends AbstractRector implements MinPhpVersionInterface
+final class MultiplyAndDivideByStringRector extends AbstractRector
 {
     public function getRuleDefinition(): RuleDefinition
     {
@@ -45,10 +43,5 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Mi
     public function refactor(Node $node): ?Node
     {
         return null;
-    }
-
-    public function provideMinPhpVersion(): int
-    {
-        return PhpVersion::PHP_80;
     }
 }
