@@ -3,6 +3,12 @@
     "type": "rector-extension",
     "license": "MIT",
     "description": "Rector upgrade rules for moneyphp/money library",
+    "authors": [
+        {
+            "name": "Grzegorz Korba",
+            "email": "grzegorz.korba@codito.pl"
+        }
+    ],
     "require": {
         "php": "^7.4|^8.0"
     },
