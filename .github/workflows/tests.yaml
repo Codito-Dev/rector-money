@@ -8,8 +8,8 @@ on:
 
 jobs:
   tests:
-    name: "Tests @ PHP${{ matrix.php-version }}, ${{ matrix.operating-system.name }}"
-    runs-on: ${{ matrix.operating-system.image }}
+    name: "Tests @ PHP${{ matrix.php-version }}"
+    runs-on: ubuntu-latest
     timeout-minutes: 60
 
     strategy:
@@ -19,11 +19,6 @@ jobs:
           - "7.4"
           - "8.0"
           - "8.1"
-        operating-system:
-          - image: ubuntu-latest
-            name: Ubuntu
-          - image: windows-latest
-            name: Windows
         script:
           - "composer phpunit"
 
