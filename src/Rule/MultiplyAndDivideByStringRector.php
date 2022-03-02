@@ -6,7 +6,11 @@ namespace Rector\Money\Rule;
 
 use Money\Money;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\CallLike;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\DNumber;
@@ -15,8 +19,10 @@ use PHPStan\Analyser\MutatingScope;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\ObjectType;
 use Rector\Core\Contract\Rector\AllowEmptyConfigurableRectorInterface;
+use Rector\Core\PhpParser\AstResolver;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
+use Rector\TypeDeclaration\TypeInferer\ReturnTypeInferer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
@@ -26,6 +32,18 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
     public const PRECISION = 'precision';
 
     private int $precision;
+
+    private AstResolver $astResolver;
+
+    private ReturnTypeInferer $returnTypeInferer;
+
+    public function __construct(
+        AstResolver $astResolver,
+        ReturnTypeInferer $returnTypeInferer
+    ) {
+        $this->astResolver = $astResolver;
+        $this->returnTypeInferer = $returnTypeInferer;
+    }
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -72,26 +90,27 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
             return $node;
         }
 
-        // Refactor passing float by variable
         $scope = $node->getAttribute(AttributeKey::SCOPE);
 
-        if ($firstArgValue instanceof Variable
-            && ($firstArgName = $this->nodeNameResolver->getName($firstArgValue->name)) !== null
-            && $scope instanceof MutatingScope
+        if (
+            ( // Refactor passing float by variable
+                $firstArgValue instanceof Variable
+                && ($firstArgName = $this->nodeNameResolver->getName($firstArgValue->name)) !== null
+                && $scope instanceof MutatingScope
+                && $scope->getVariableType($firstArgName) instanceof FloatType
+            )
+            || ( // Refactor passing float by function/method return type
+                (
+                    $firstArgValue instanceof FuncCall
+                    || $firstArgValue instanceof MethodCall
+                    || $firstArgValue instanceof StaticCall
+                )
+                && $this->isFloatReturned($firstArgValue, $scope)
+            )
         ) {
-            $firstArgType = $scope->getVariableType($firstArgName);
+            $this->wrapWithSprintf($firstArg);
 
-            if ($firstArgType instanceof FloatType) {
-                $firstArg->value = $this->nodeFactory->createFuncCall(
-                    'sprintf',
-                    [
-                        sprintf('%%.%dF', $this->precision),
-                        $firstArgValue,
-                    ]
-                );
-
-                return $node;
-            }
+            return $node;
         }
 
         return null;
@@ -110,5 +129,27 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
         return $executedOn->getClassName() !== Money::class
             || !$node->name instanceof Identifier
             || !in_array($node->name->toLowerString(), ['divide', 'multiply'], true);
+    }
+
+    private function wrapWithSprintf(Arg $arg): void
+    {
+        $arg->value = $this->nodeFactory->createFuncCall(
+            'sprintf',
+            [
+                sprintf('%%.%dF', $this->precision),
+                $arg->value,
+            ]
+        );
+    }
+
+    /**
+     * @param FuncCall|MethodCall|StaticCall $node
+     */
+    private function isFloatReturned(CallLike $node, MutatingScope $scope): bool
+    {
+        $functionLike = $this->astResolver->resolveClassMethodOrFunctionFromCall($node, $scope);
+
+        return $functionLike !== null
+            && $this->returnTypeInferer->inferFunctionLike($functionLike) instanceof FloatType;
     }
 }
