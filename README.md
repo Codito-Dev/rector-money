@@ -8,11 +8,11 @@ composer require codito/rector-money --dev
 
 ## Use Sets
 
-To add a set to your config, use `Rector\Money\MoneySetList` class:
+To add a set to your config, use `Codito\Rector\Money\MoneySetList` class:
 
 ```php
 use Rector\Core\Configuration\Option;
-use Rector\Money\MoneySetList;
+use Codito\Rector\Money\MoneySetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {

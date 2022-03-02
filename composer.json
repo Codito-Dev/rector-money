@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Rector\\Money\\": "src"
+            "Codito\\Rector\\Money\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rector\\Money\\Tests\\": "tests"
+            "Codito\\Rector\\Money\\Tests\\": "tests"
         }
     },
     "scripts": {

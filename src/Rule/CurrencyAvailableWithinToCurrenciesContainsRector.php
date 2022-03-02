@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Money\Rule;
+namespace Codito\Rector\Money\Rule;
 
 use Money\Currency;
 use PhpParser\Node;

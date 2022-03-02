@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Money;
+namespace Codito\Rector\Money;
 
 use Rector\Set\Contract\SetListInterface;
 

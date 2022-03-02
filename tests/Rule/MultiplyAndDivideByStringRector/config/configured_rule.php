@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Rector\Money\Rule\MultiplyAndDivideByStringRector;
+use Codito\Rector\Money\Rule\MultiplyAndDivideByStringRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {

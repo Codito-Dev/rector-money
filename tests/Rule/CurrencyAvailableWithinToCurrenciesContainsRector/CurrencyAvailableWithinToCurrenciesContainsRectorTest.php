@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Money\Tests\Rule\CurrencyAvailableWithinToCurrenciesContainsRector;
+namespace Codito\Rector\Money\Tests\Rule\CurrencyAvailableWithinToCurrenciesContainsRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
