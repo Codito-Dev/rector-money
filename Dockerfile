@@ -4,7 +4,7 @@ WORKDIR /etc/rector
 
 RUN mkdir -p /etc/rector
 
-RUN apk add --no-cache patch icu \
+RUN apk add --no-cache icu \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev \
     && pecl install xdebug \
     && docker-php-ext-install bcmath intl \
