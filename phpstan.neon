@@ -12,5 +12,10 @@ parameters:
     reportUnmatchedIgnoredErrors: true
     tmpDir: cache/phpstan
 
+    scanDirectories:
+        - vendor/symplify/easy-coding-standard/vendor/friendsofphp/php-cs-fixer/src
+        - vendor/symplify/easy-coding-standard/vendor/php-cs-fixer/diff/src
+        - vendor/symplify/easy-coding-standard/vendor/squizlabs/php_codesniffer/src
+
     ignoreErrors:
         - '#Parameter \#1 \$node \(PhpParser\\Node\\(.*?) of method (Codito\\)?Rector\\(.*?)\(\) should be contravariant with parameter \$node \(PhpParser\\Node\) of method Rector\\Core\\Contract\\Rector\\PhpRectorInterface\:\:refactor\(\)#'
