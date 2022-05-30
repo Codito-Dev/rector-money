@@ -5,29 +5,25 @@ declare(strict_types=1);
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(SetList::PSR_12);
-    $containerConfigurator->import(SetList::COMMON);
-    $containerConfigurator->import(SetList::CLEAN_CODE);
+return static function (ECSConfig $config): void {
+    $config->parallel();
 
-    $parameters = $containerConfigurator->parameters();
+    $config->import(SetList::PSR_12);
+    $config->import(SetList::COMMON);
+    $config->import(SetList::CLEAN_CODE);
 
-    $parameters->set(Option::CACHE_DIRECTORY, 'cache/ecs');
-    $parameters->set(Option::PARALLEL, true);
-
-    $parameters->set(Option::PATHS, [
+    $config->paths([
         __DIR__ . '/src',
         __DIR__ . '/tests',
         __DIR__ . '/config',
         __DIR__ . '/ecs.php',
         __DIR__ . '/rector.php',
     ]);
-
-    $parameters->set(Option::SKIP, [
+    $config->skip([
         // Paths that should not be analysed
         '*/Source/*',
         '*/Fixture/*',
@@ -37,6 +33,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         NotOperatorWithSuccessorSpaceFixer::class,
         AssignmentInConditionSniff::class . '.Found',
     ]);
+    $config->lineEnding("\n");
 
-    $parameters->set(Option::LINE_ENDING, "\n");
+    $parameters = $config->parameters();
+    $parameters->set(Option::CACHE_DIRECTORY, 'cache/ecs');
 };

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 use Codito\Rector\Money\Rule\CurrencyAvailableWithinToCurrenciesContainsRector;
 use Codito\Rector\Money\Rule\MultiplyAndDivideByStringRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(CurrencyAvailableWithinToCurrenciesContainsRector::class);
-    $services->set(MultiplyAndDivideByStringRector::class);
+return static function (RectorConfig $config): void {
+    $config->rule(CurrencyAvailableWithinToCurrenciesContainsRector::class);
+    $config->ruleWithConfiguration(MultiplyAndDivideByStringRector::class, [
+        MultiplyAndDivideByStringRector::PRECISION => 5,
+    ]);
 };
