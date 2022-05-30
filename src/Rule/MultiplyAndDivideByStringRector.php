@@ -17,7 +17,8 @@ use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Type\FloatType;
-use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
+use PHPStan\Type\TypeWithClassName;
 use Rector\Core\Contract\Rector\AllowEmptyConfigurableRectorInterface;
 use Rector\Core\PhpParser\AstResolver;
 use Rector\Core\Rector\AbstractRector;
@@ -31,7 +32,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
 {
     public const PRECISION = 'precision';
 
-    private int $precision;
+    private int $precision = 5;
 
     private AstResolver $astResolver;
 
@@ -123,10 +124,10 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
 
     private function shouldSkip(MethodCall $node): bool
     {
-        /** @var ObjectType $executedOn */
         $executedOn = $this->nodeTypeResolver->getNativeType($node->var);
 
-        return $executedOn->getClassName() !== Money::class
+        return !$executedOn instanceof TypeWithClassName
+            || $executedOn->getClassName() !== Money::class
             || !$node->name instanceof Identifier
             || !in_array($node->name->toLowerString(), ['divide', 'multiply'], true);
     }

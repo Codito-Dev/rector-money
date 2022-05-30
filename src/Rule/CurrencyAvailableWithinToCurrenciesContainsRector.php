@@ -7,7 +7,8 @@ namespace Codito\Rector\Money\Rule;
 use Money\Currency;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
+use PHPStan\Type\TypeWithClassName;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -49,10 +50,10 @@ final class CurrencyAvailableWithinToCurrenciesContainsRector extends AbstractRe
 
     private function shouldSkip(MethodCall $node): bool
     {
-        /** @var ObjectType $executedOn */
         $executedOn = $this->nodeTypeResolver->getNativeType($node->var);
 
-        return $executedOn->getClassName() !== Currency::class
+        return !$executedOn instanceof TypeWithClassName
+            || $executedOn->getClassName() !== Currency::class
             || $this->nodeNameResolver->getName($node->name) !== 'isAvailableWithin';
     }
 }
