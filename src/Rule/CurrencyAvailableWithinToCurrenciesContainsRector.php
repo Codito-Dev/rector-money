@@ -7,7 +7,6 @@ namespace Codito\Rector\Money\Rule;
 use Money\Currency;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;

@@ -17,7 +17,6 @@ use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Type\FloatType;
-use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Rector\Core\Contract\Rector\AllowEmptyConfigurableRectorInterface;
 use Rector\Core\PhpParser\AstResolver;
@@ -32,7 +31,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
 {
     public const PRECISION = 'precision';
 
-    private int $precision = 5;
+    private int $precision;
 
     private AstResolver $astResolver;
 
