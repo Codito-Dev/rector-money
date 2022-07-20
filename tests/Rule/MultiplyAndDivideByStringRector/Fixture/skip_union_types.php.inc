@@ -6,11 +6,6 @@ use Money\Currency;
 use Money\Money;
 use function mt_rand;
 
-function returnInt(): int
-{
-    return 1;
-}
-
 class UnionReturning
 {
     /**
@@ -40,6 +35,10 @@ class UnionReturning
 $unionReturning = new UnionReturning();
 $unionReturning->bar()->divide(1);
 $unionReturning->bar()->multiply(2);
+$unionReturning->bar()->divide(1.1);
+$unionReturning->bar()->multiply(2.5);
 
 UnionReturning::foo()->divide(3);
 UnionReturning::foo()->multiply(4);
+UnionReturning::foo()->divide(3.5);
+UnionReturning::foo()->multiply(4.6);
