@@ -6,7 +6,7 @@ namespace Codito\Rector\Money\Tests\Rule\CurrencyAvailableWithinToCurrenciesCont
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use RectorPrefix202208\Symplify\SmartFileSystem\SmartFileInfo;
 
 final class CurrencyAvailableWithinToCurrenciesContainsRectorTest extends AbstractRectorTestCase
 {
@@ -19,11 +19,11 @@ final class CurrencyAvailableWithinToCurrenciesContainsRectorTest extends Abstra
     }
 
     /**
-     * @return Iterator<SmartFileInfo>
+     * @return Iterator<string, array<int, SmartFileInfo>>
      */
     public function provideData(): Iterator
     {
-        return $this->yieldFilesFromDirectory(__DIR__ . '/Fixture');
+        return $this->yieldFilesWithPathnameFromDirectory(__DIR__ . '/Fixture');
     }
 
     public function provideConfigFilePath(): string

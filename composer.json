@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^7.4|^8.0",
-        "rector/rector": "~0.12.21|~0.13"
+        "rector/rector": "~0.14"
     },
     "require-dev": {
         "moneyphp/money": "^3.0|^4.0.1",
@@ -37,7 +37,7 @@
         "cs:check": "vendor/bin/ecs check --ansi",
         "cs:fix": "vendor/bin/ecs check --fix --ansi",
         "phpstan": "vendor/bin/phpstan analyse --ansi",
-        "phpunit": "vendor/bin/phpunit",
+        "phpunit": "vendor/bin/phpunit --testdox",
         "rector:check": "vendor/bin/rector process --ansi --dry-run",
         "rector:fix": [
             "vendor/bin/rector process --ansi",
