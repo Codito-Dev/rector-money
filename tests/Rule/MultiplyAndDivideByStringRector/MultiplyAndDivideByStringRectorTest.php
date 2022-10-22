@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace Codito\Rector\Money\Tests\Rule\MultiplyAndDivideByStringRector;
 
+use Codito\Rector\Money\Tests\AbstractRectorTestCase;
 use Iterator;
-use Rector\Testing\PHPUnit\AbstractRectorTestCase;
-use RectorPrefix202208\Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MultiplyAndDivideByStringRectorTest extends AbstractRectorTestCase
 {
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fileInfo): void
+    public function test(string $fileInfo): void
     {
-        $this->doTestFileInfo($fileInfo);
+        $this->doTestFile($fileInfo);
     }
 
     /**
-     * @return Iterator<string, array<int, SmartFileInfo>>
+     * @return Iterator<string, array<int, string>>
      */
     public function provideData(): Iterator
     {
-        return $this->yieldFilesWithPathnameFromDirectory(__DIR__ . '/Fixture');
+        return $this->yieldFilesWithNamesFromDirectory(__DIR__ . '/Fixture');
     }
 
     public function provideConfigFilePath(): string

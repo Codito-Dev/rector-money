@@ -14,7 +14,6 @@ parameters:
 
     scanDirectories:
         - vendor/symplify/easy-coding-standard/vendor/friendsofphp/php-cs-fixer/src
-        - vendor/symplify/easy-coding-standard/vendor/php-cs-fixer/diff/src
         - vendor/symplify/easy-coding-standard/vendor/squizlabs/php_codesniffer/src
 
     ignoreErrors:
