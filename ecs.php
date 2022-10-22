@@ -6,7 +6,6 @@ use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionS
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ECSConfig $config): void {
@@ -34,7 +33,5 @@ return static function (ECSConfig $config): void {
         AssignmentInConditionSniff::class . '.Found',
     ]);
     $config->lineEnding("\n");
-
-    $parameters = $config->parameters();
-    $parameters->set(Option::CACHE_DIRECTORY, 'cache/ecs');
+    $config->cacheDirectory('cache/ecs');
 };
