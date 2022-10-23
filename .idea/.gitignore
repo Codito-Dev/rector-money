@@ -2,15 +2,17 @@
 !.gitignore
 
 # Basic project files
-!.name
-!rector-money.iml
-!modules.xml
 !php-docker-settings.xml
 !php-test-framework.xml
 !php.xml
 !remote-mappings.xml
 !vcs.xml
 
-# Default profiles and runtime configurations
+# Whitelist all run configurations (these must be explicitly stored as project files, so it's safe)
+!runConfigurations
+!runConfigurations/*
+
+# Allow whitelisting for inspection profiles
+!inspectionProfiles
+inspectionProfiles/*
 !inspectionProfiles/Project_Default.xml
-!runConfigurations/Xdebug.xml
