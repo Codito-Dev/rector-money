@@ -7,9 +7,11 @@ run: check-command ## Runs specified command on PHP container (starts it automat
 	docker-compose run php $(cmd)
 
 qa: sa rector phpunit ## Runs QA suite
-sa: cs phpstan ## Runs static analysis
+sa: cs arkitect phpstan ## Runs static analysis
 fix: rector-fix ## Applies automatic fixes
 
+arkitect: ## Checks architectural consistency
+	docker-compose run php composer arkitect
 cs: ## Checks coding standards
 	docker-compose run php composer cs:check
 cs-fix: ## Fixes coding standards violations

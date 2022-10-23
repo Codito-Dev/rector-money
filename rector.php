@@ -17,6 +17,7 @@ return static function (RectorConfig $config): void {
         __DIR__ . '/src',
         __DIR__ . '/tests',
         __DIR__ . '/ecs.php',
+        __DIR__ . '/phparkitect.php',
         __DIR__ . '/rector.php',
     ]);
     $config->skip([

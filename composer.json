@@ -16,6 +16,7 @@
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "moneyphp/money": "^3.0|^4.0.1",
+        "phparkitect/phparkitect": "^0.2.32",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.7.2",
         "phpstan/phpstan-strict-rules": "^1.1",
@@ -35,6 +36,7 @@
         }
     },
     "scripts": {
+        "arkitect": "vendor/bin/phparkitect check",
         "cs:check": "vendor/bin/ecs check --ansi",
         "cs:fix": "vendor/bin/ecs check --fix --ansi",
         "phpstan": "vendor/bin/phpstan analyse --ansi",
@@ -46,6 +48,7 @@
         ]
     },
     "scripts-descriptions": {
+        "arkitect": "Validates architectural consistency",
         "cs:check": "Validates coding standards",
         "cs:fix": "Fixes coding standards violations",
         "phpstan": "Runs PHPStan analysis",

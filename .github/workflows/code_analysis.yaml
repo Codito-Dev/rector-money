@@ -20,6 +20,9 @@ jobs:
           - name: 'Composer Validate'
             run: composer validate
 
+          - name: 'PHPArkitect'
+            run: composer arkitect
+
           - name: 'PHPStan'
             run: composer phpstan
 

@@ -21,6 +21,7 @@ return static function (ECSConfig $config): void {
         __DIR__ . '/tests',
         __DIR__ . '/config',
         __DIR__ . '/ecs.php',
+        __DIR__ . '/phparkitect.php',
         __DIR__ . '/rector.php',
     ]);
     $config->skip([

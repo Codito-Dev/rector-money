@@ -6,6 +6,7 @@ parameters:
         - src
         - tests
         - ecs.php
+        - phparkitect.php
         - rector.php
 
     excludePaths:
