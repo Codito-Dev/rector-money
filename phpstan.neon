@@ -5,6 +5,8 @@ parameters:
         - config
         - src
         - tests
+        - ecs.php
+        - rector.php
 
     excludePaths:
         - */Source/*
