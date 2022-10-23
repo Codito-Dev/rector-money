@@ -14,6 +14,7 @@ return static function (ECSConfig $config): void {
     $config->import(SetList::PSR_12);
     $config->import(SetList::COMMON);
     $config->import(SetList::CLEAN_CODE);
+    $config->import(SetList::NAMESPACES);
 
     $config->paths([
         __DIR__ . '/src',
