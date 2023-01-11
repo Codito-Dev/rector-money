@@ -6,7 +6,7 @@ RUN mkdir -p /etc/rector
 
 RUN apk add --no-cache icu \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev \
-    && pecl install xdebug \
+    && pecl install xdebug-3.1.6 \
     && docker-php-ext-install bcmath intl \
     && docker-php-ext-enable xdebug \
     && apk del -f .build-deps
