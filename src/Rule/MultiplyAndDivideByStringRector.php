@@ -77,11 +77,10 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Co
 
         $scope = $node->getAttribute(AttributeKey::SCOPE);
 
-        if (
+        if ($scope instanceof MutatingScope && (
             ( // Refactor passing float by variable
                 $firstArgValue instanceof Variable
                 && ($firstArgName = $this->nodeNameResolver->getName($firstArgValue->name)) !== null
-                && $scope instanceof MutatingScope
                 && $scope->getVariableType($firstArgName)->isFloat()->yes()
             )
             || ( // Refactor passing float by function/method return type
@@ -92,7 +91,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Co
                 )
                 && $this->isFloatReturned($firstArgValue, $scope)
             )
-        ) {
+        )) {
             $this->wrapWithSprintf($firstArg);
 
             return $node;
