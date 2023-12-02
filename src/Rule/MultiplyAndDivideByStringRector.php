@@ -58,7 +58,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Co
     /**
      * @param MethodCall $node
      */
-    public function refactor(Node $node)
+    public function refactor(Node $node): ?Node
     {
         if ($this->shouldSkip($node)) {
             return null;
