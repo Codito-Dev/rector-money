@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Codito\Rector\Money\Rule;
 
-use PHPStan\Type\ObjectType;
 use Money\Money;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
@@ -17,14 +16,15 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\MutatingScope;
-use PHPStan\Analyser\Scope;
+use PHPStan\Type\ObjectType;
 use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
-use Rector\Core\Rector\AbstractScopeAwareRector;
+use Rector\Core\Rector\AbstractRector;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
 
-final class MultiplyAndDivideByStringRector extends AbstractScopeAwareRector implements ConfigurableRectorInterface
+final class MultiplyAndDivideByStringRector extends AbstractRector implements ConfigurableRectorInterface
 {
     public const PRECISION = 'precision';
 
@@ -58,7 +58,7 @@ final class MultiplyAndDivideByStringRector extends AbstractScopeAwareRector imp
     /**
      * @param MethodCall $node
      */
-    public function refactorWithScope(Node $node, Scope $scope)
+    public function refactor(Node $node)
     {
         if ($this->shouldSkip($node)) {
             return null;
@@ -68,6 +68,7 @@ final class MultiplyAndDivideByStringRector extends AbstractScopeAwareRector imp
         $firstArg = $args[0];
         $firstArgValue = $firstArg->value;
 
+        $scope = $node->getAttribute(AttributeKey::SCOPE);
 
         // Refactor passing float as an explicit argument
         if ($firstArgValue instanceof DNumber) {
