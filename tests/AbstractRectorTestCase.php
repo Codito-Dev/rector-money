@@ -16,7 +16,7 @@ abstract class AbstractRectorTestCase extends UpstreamRectorTestCase
      */
     protected function yieldFilesWithNamesFromDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        foreach ($this->yieldFilesFromDirectory($directory, $suffix) as $fixture) {
+        foreach (static::yieldFilesFromDirectory($directory, $suffix) as $fixture) {
             yield basename($fixture[0]) => $fixture;
         }
     }
