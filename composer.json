@@ -45,6 +45,13 @@
         "rector:fix": [
             "vendor/bin/rector process --ansi",
             "@cs:fix"
+        ],
+        "qa": [
+            "@arkitect",
+            "@cs:check",
+            "@phpstan",
+            "@rector:check",
+            "@phpunit"
         ]
     },
     "scripts-descriptions": {
@@ -54,7 +61,8 @@
         "phpstan": "Runs PHPStan analysis",
         "phpunit": "Runs unit tests",
         "rector:check": "Runs Rector analysis",
-        "rector:fix": "Refactors code using Rector"
+        "rector:fix": "Refactors code using Rector",
+        "qa": "Run Quality Assurance suite"
     },
     "extra": {
         "branch-alias": {
