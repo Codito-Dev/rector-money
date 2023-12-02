@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^7.4|^8.0",
-        "rector/rector": "^0.14.1"
+        "rector/rector": "^0.18.1"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
@@ -59,11 +59,6 @@
     "extra": {
         "branch-alias": {
             "dev-main": "1.0-dev"
-        },
-        "rector": {
-            "includes": [
-                "config/config.php"
-            ]
         }
     },
     "minimum-stability": "stable",

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Codito\Rector\Money\Rule;
 
+use PHPStan\Type\ObjectType;
 use Money\Money;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
@@ -16,34 +17,18 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\MutatingScope;
-use PHPStan\Type\FloatType;
-use PHPStan\Type\TypeWithClassName;
-use Rector\Core\Contract\Rector\AllowEmptyConfigurableRectorInterface;
-use Rector\Core\PhpParser\AstResolver;
-use Rector\Core\Rector\AbstractRector;
-use Rector\NodeTypeResolver\Node\AttributeKey;
-use Rector\TypeDeclaration\TypeInferer\ReturnTypeInferer;
+use PHPStan\Analyser\Scope;
+use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
+use Rector\Core\Rector\AbstractScopeAwareRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
 
-final class MultiplyAndDivideByStringRector extends AbstractRector implements AllowEmptyConfigurableRectorInterface
+final class MultiplyAndDivideByStringRector extends AbstractScopeAwareRector implements ConfigurableRectorInterface
 {
     public const PRECISION = 'precision';
 
     private int $precision;
-
-    private AstResolver $astResolver;
-
-    private ReturnTypeInferer $returnTypeInferer;
-
-    public function __construct(
-        AstResolver $astResolver,
-        ReturnTypeInferer $returnTypeInferer
-    ) {
-        $this->astResolver = $astResolver;
-        $this->returnTypeInferer = $returnTypeInferer;
-    }
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -73,7 +58,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
     /**
      * @param MethodCall $node
      */
-    public function refactor(Node $node): ?Node
+    public function refactorWithScope(Node $node, Scope $scope)
     {
         if ($this->shouldSkip($node)) {
             return null;
@@ -83,6 +68,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
         $firstArg = $args[0];
         $firstArgValue = $firstArg->value;
 
+
         // Refactor passing float as an explicit argument
         if ($firstArgValue instanceof DNumber) {
             $firstArg->value = new String_((string)$firstArgValue->value);
@@ -90,14 +76,12 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
             return $node;
         }
 
-        $scope = $node->getAttribute(AttributeKey::SCOPE);
-
         if (
             ( // Refactor passing float by variable
                 $firstArgValue instanceof Variable
                 && ($firstArgName = $this->nodeNameResolver->getName($firstArgValue->name)) !== null
                 && $scope instanceof MutatingScope
-                && $scope->getVariableType($firstArgName) instanceof FloatType
+                && $scope->getVariableType($firstArgName)->isFloat()->yes()
             )
             || ( // Refactor passing float by function/method return type
                 (
@@ -123,9 +107,9 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
 
     private function shouldSkip(MethodCall $node): bool
     {
-        $executedOn = $this->nodeTypeResolver->getNativeType($node->var);
+        $executedOn = $this->nodeTypeResolver->getType($node->var);
 
-        return !$executedOn instanceof TypeWithClassName
+        return !$executedOn instanceof ObjectType
             || $executedOn->getClassName() !== Money::class
             || !$node->name instanceof Identifier
             || !in_array($node->name->toLowerString(), ['divide', 'multiply'], true);
@@ -147,9 +131,8 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
      */
     private function isFloatReturned(CallLike $node, MutatingScope $scope): bool
     {
-        $functionLike = $this->astResolver->resolveClassMethodOrFunctionFromCall($node, $scope);
+        $type = $scope->getType($node);
 
-        return $functionLike !== null
-            && $this->returnTypeInferer->inferFunctionLike($functionLike) instanceof FloatType;
+        return $type->isFloat()->yes();
     }
 }
