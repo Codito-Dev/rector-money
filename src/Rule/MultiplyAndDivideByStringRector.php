@@ -68,14 +68,14 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Co
         $firstArg = $args[0];
         $firstArgValue = $firstArg->value;
 
-        $scope = $node->getAttribute(AttributeKey::SCOPE);
-
         // Refactor passing float as an explicit argument
         if ($firstArgValue instanceof DNumber) {
             $firstArg->value = new String_((string)$firstArgValue->value);
 
             return $node;
         }
+
+        $scope = $node->getAttribute(AttributeKey::SCOPE);
 
         if (
             ( // Refactor passing float by variable
