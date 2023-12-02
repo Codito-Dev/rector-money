@@ -16,34 +16,19 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\MutatingScope;
-use PHPStan\Type\FloatType;
-use PHPStan\Type\TypeWithClassName;
-use Rector\Core\Contract\Rector\AllowEmptyConfigurableRectorInterface;
-use Rector\Core\PhpParser\AstResolver;
+use PHPStan\Type\ObjectType;
+use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
-use Rector\TypeDeclaration\TypeInferer\ReturnTypeInferer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
 
-final class MultiplyAndDivideByStringRector extends AbstractRector implements AllowEmptyConfigurableRectorInterface
+final class MultiplyAndDivideByStringRector extends AbstractRector implements ConfigurableRectorInterface
 {
     public const PRECISION = 'precision';
 
     private int $precision;
-
-    private AstResolver $astResolver;
-
-    private ReturnTypeInferer $returnTypeInferer;
-
-    public function __construct(
-        AstResolver $astResolver,
-        ReturnTypeInferer $returnTypeInferer
-    ) {
-        $this->astResolver = $astResolver;
-        $this->returnTypeInferer = $returnTypeInferer;
-    }
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -97,7 +82,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
                 $firstArgValue instanceof Variable
                 && ($firstArgName = $this->nodeNameResolver->getName($firstArgValue->name)) !== null
                 && $scope instanceof MutatingScope
-                && $scope->getVariableType($firstArgName) instanceof FloatType
+                && $scope->getVariableType($firstArgName)->isFloat()->yes()
             )
             || ( // Refactor passing float by function/method return type
                 (
@@ -123,9 +108,9 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
 
     private function shouldSkip(MethodCall $node): bool
     {
-        $executedOn = $this->nodeTypeResolver->getNativeType($node->var);
+        $executedOn = $this->nodeTypeResolver->getType($node->var);
 
-        return !$executedOn instanceof TypeWithClassName
+        return !$executedOn instanceof ObjectType
             || $executedOn->getClassName() !== Money::class
             || !$node->name instanceof Identifier
             || !in_array($node->name->toLowerString(), ['divide', 'multiply'], true);
@@ -147,9 +132,8 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Al
      */
     private function isFloatReturned(CallLike $node, MutatingScope $scope): bool
     {
-        $functionLike = $this->astResolver->resolveClassMethodOrFunctionFromCall($node, $scope);
+        $type = $scope->getType($node);
 
-        return $functionLike !== null
-            && $this->returnTypeInferer->inferFunctionLike($functionLike) instanceof FloatType;
+        return $type->isFloat()->yes();
     }
 }
