@@ -15,7 +15,7 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
-        "moneyphp/money": "^3.0|^4.0.1",
+        "moneyphp/money": "^3.2|^4.0.1",
         "phparkitect/phparkitect": "^0.2.32",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.7.2",
