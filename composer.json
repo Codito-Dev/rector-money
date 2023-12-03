@@ -36,14 +36,14 @@
         }
     },
     "scripts": {
-        "arkitect": "vendor/bin/phparkitect check",
-        "cs:check": "vendor/bin/ecs check --ansi",
-        "cs:fix": "vendor/bin/ecs check --fix --ansi",
-        "phpstan": "vendor/bin/phpstan analyse --ansi",
-        "phpunit": "vendor/bin/phpunit --testdox",
-        "rector:check": "vendor/bin/rector process --ansi --dry-run",
+        "arkitect": "phparkitect check",
+        "cs:check": "ecs check --ansi",
+        "cs:fix": "ecs check --fix --ansi",
+        "phpstan": "phpstan analyse --ansi",
+        "phpunit": "phpunit --testdox",
+        "rector:check": "rector process --ansi --dry-run",
         "rector:fix": [
-            "vendor/bin/rector process --ansi",
+            "rector process --ansi",
             "@cs:fix"
         ],
         "qa": [
