@@ -8,7 +8,7 @@ on:
 
 jobs:
   tests:
-    name: "Tests @ PHP${{ matrix.php-version }}"
+    name: "Tests @ PHP${{ matrix.php-version }} ${{ matrix.composer-flags }}"
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -19,15 +19,19 @@ jobs:
           - "7.4"
           - "8.0"
           - "8.1"
-        script:
-          - "composer phpunit"
+          - "8.2"
+          - "8.3"
+        composer-flags: [ "" ]
+        include:
+          - php-version: 7.4
+            composer-flags: "--prefer-lowest"
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: actions/checkout@v4
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+        uses: shivammathur/setup-php@v2
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
@@ -36,7 +40,7 @@ jobs:
           ini-values: memory_limit=640M
 
       - name: "Install dependencies"
-        run: "composer install --no-interaction --no-progress"
+        run: composer update --no-interaction --no-progress --no-scripts ${{ matrix.composer-flags }}
 
       - name: "Tests"
-        run: "${{ matrix.script }}"
+        run: composer phpunit
