@@ -11,7 +11,7 @@ composer require codito/rector-money --dev
 To add a set to your config, use `Codito\Rector\Money\MoneySetList` class:
 
 ```php
-use Rector\Core\Configuration\Option;
+use Rector\Configuration\Option;
 use Codito\Rector\Money\MoneySetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 

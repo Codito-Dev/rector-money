@@ -8,7 +8,7 @@ use Arkitect\Expression\ForClasses\Extend;
 use Arkitect\Expression\ForClasses\HaveNameMatching;
 use Arkitect\Expression\ForClasses\ResideInOneOfTheseNamespaces;
 use Arkitect\Rules\Rule;
-use Rector\Core\Rector\AbstractRector;
+use Rector\Rector\AbstractRector;
 
 return static function (Config $config): void {
     $srcClassSet = ClassSet::fromDir(__DIR__ . '/src');
