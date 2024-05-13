@@ -22,7 +22,6 @@ use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Webmozart\Assert\Assert;
 
 final class MultiplyAndDivideByStringRector extends AbstractRector implements ConfigurableRectorInterface
 {
@@ -102,7 +101,13 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Co
 
     public function configure(array $configuration): void
     {
-        Assert::nullOrInteger($this->precision = $configuration[self::PRECISION] ?? 5);
+        $precision = $configuration[self::PRECISION] ?? 5;
+
+        if ($precision !== null && !is_int($precision)) { // @phpstan-ignore-line
+            throw new \InvalidArgumentException(sprintf('"%s" must be an integer or null', self::PRECISION));
+        }
+
+        $this->precision = $precision;
     }
 
     private function shouldSkip(MethodCall $node): bool
