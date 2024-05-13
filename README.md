@@ -11,12 +11,13 @@ composer require codito/rector-money --dev
 To add a set to your config, use `Codito\Rector\Money\MoneySetList` class:
 
 ```php
-use Rector\Configuration\Option;
+use Rector\Config\RectorConfig;
 use Codito\Rector\Money\MoneySetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(MoneySetList::V4);
+return static function (RectorConfig $config): void {
+    $config->import(MoneySetList::V4);
+
+    // ... other configuration calls
 };
 ```
 
