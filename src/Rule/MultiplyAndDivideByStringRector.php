@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Codito\Rector\Money\Rule;
 
+use InvalidArgumentException;
 use Money\Money;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
@@ -104,7 +105,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Co
         $precision = $configuration[self::PRECISION] ?? 5;
 
         if ($precision !== null && !is_int($precision)) { // @phpstan-ignore-line
-            throw new \InvalidArgumentException(sprintf('"%s" must be an integer or null', self::PRECISION));
+            throw new InvalidArgumentException(sprintf('"%s" must be an integer or null', self::PRECISION));
         }
 
         $this->precision = $precision;
