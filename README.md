@@ -14,11 +14,8 @@ To add a set to your config, use `Codito\Rector\Money\MoneySetList` class:
 use Rector\Config\RectorConfig;
 use Codito\Rector\Money\MoneySetList;
 
-return static function (RectorConfig $config): void {
-    $config->import(MoneySetList::V4);
-
-    // ... other configuration calls
-};
+return RectorConfig::configure()
+    ->withSets([MoneySetList::V4]);
 ```
 
 ## Contributing

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Codito\Rector\Money;
 
-use Rector\Set\Contract\SetListInterface;
-
-final class MoneySetList implements SetListInterface
+final class MoneySetList
 {
     public const V4 = __DIR__ . '/../config/sets/v4.php';
 }
