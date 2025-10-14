@@ -39,7 +39,7 @@
         "cs:check": "ecs check --ansi",
         "cs:fix": "ecs check --fix --ansi",
         "phpstan": "phpstan analyse --ansi",
-        "phpunit": "phpunit --testdox",
+        "test": "phpunit --testdox",
         "rector:check": "rector process --ansi --dry-run",
         "rector:fix": [
             "rector process --ansi",
@@ -50,7 +50,7 @@
             "@cs:check",
             "@phpstan",
             "@rector:check",
-            "@phpunit"
+            "@test"
         ]
     },
     "scripts-descriptions": {
@@ -58,7 +58,7 @@
         "cs:check": "Validates coding standards",
         "cs:fix": "Fixes coding standards violations",
         "phpstan": "Runs PHPStan analysis",
-        "phpunit": "Runs unit tests",
+        "test": "Runs unit tests",
         "rector:check": "Runs Rector analysis",
         "rector:fix": "Refactors code using Rector",
         "qa": "Run Quality Assurance suite"

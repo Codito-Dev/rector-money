@@ -45,4 +45,4 @@ jobs:
         run: composer update --no-interaction --no-progress --no-scripts ${{ matrix.composer-flags }}
 
       - name: "Tests"
-        run: composer phpunit -- --colors=always
+        run: composer test -- --colors=always
