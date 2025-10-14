@@ -23,6 +23,9 @@ jobs:
           - name: 'PHPArkitect'
             run: composer arkitect
 
+          - name: 'PHP Compatibility'
+            run: composer php-compatibility
+
           - name: 'PHPStan'
             run: composer phpstan
 

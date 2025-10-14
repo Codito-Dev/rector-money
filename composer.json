@@ -17,6 +17,7 @@
         "roave/security-advisories": "dev-latest",
         "moneyphp/money": "^3.2|^4.0.1",
         "phparkitect/phparkitect": "^0.4.0",
+        "phpcompatibility/php-compatibility": "10.x-dev as 10.0.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.0",
@@ -38,6 +39,7 @@
         "arkitect": "phparkitect check",
         "cs:check": "ecs check --ansi",
         "cs:fix": "ecs check --fix --ansi",
+        "php-compatibility": "phpcs -p --standard=php-compatibility.xml",
         "phpstan": "phpstan analyse --ansi",
         "test": "phpunit --testdox",
         "rector:check": "rector process --ansi --dry-run",
@@ -48,6 +50,7 @@
         "qa": [
             "@arkitect",
             "@cs:check",
+            "@php-compatibility",
             "@phpstan",
             "@rector:check",
             "@test"
@@ -57,6 +60,7 @@
         "arkitect": "Validates architectural consistency",
         "cs:check": "Validates coding standards",
         "cs:fix": "Fixes coding standards violations",
+        "php-compatibility": "Runs PHP compatibility analysis",
         "phpstan": "Runs PHPStan analysis",
         "test": "Runs unit tests",
         "rector:check": "Runs Rector analysis",
@@ -73,7 +77,8 @@
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
-            "rector/extension-installer": true
+            "rector/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }

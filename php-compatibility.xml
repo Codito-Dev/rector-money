@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd"
+>
+    <arg name="cache" value="phpcs-cache.json"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+
+    <arg value="n"/><!-- Only errors, without warnings -->
+    <arg value="s"/><!-- Display sniffs' names -->
+
+    <rule ref="PHPCompatibility"/>
+
+    <config name="testVersion" value="7.4-8.4"/>
+
+    <file>src/</file>
+    <file>tests/</file>
+</ruleset>
