@@ -14,7 +14,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Scalar\DNumber;
+use PhpParser\Node\Scalar\Float_;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Type\ObjectType;
@@ -69,7 +69,7 @@ final class MultiplyAndDivideByStringRector extends AbstractRector implements Co
         $firstArgValue = $firstArg->value;
 
         // Refactor passing float as an explicit argument
-        if ($firstArgValue instanceof DNumber) {
+        if ($firstArgValue instanceof Float_) {
             $firstArg->value = new String_((string)$firstArgValue->value);
 
             return $node;
